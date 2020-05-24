@@ -1,0 +1,31 @@
+# HTTP Server
+[server]
+	Address     = ":8199"
+	ServerRoot  = "public"
+	ServerAgent = "webserver"
+	LogPath     = "/tmp/log/webserver/server"
+
+# Logger.
+[logger]
+    Path        = "/tmp/log/webserver"
+    Level       = "all"
+    Stdout      = true
+
+# Template.
+[viewer]
+    Path        = "template"
+    DefaultFile = "index.html"
+    Delimiters  =  ["${", "}"]
+
+# Database.
+[database]
+    link  = "mysql:root:123123@tcp(127.0.0.1:3306)/webdb"
+    debug = true
+    # Database users
+    [database.users]
+      link = "mysql:root:123123@tcp(127.0.0.1:3306)/users"
+    # Database logger.
+    [database.logger]
+        Path   = "/tmp/log/webserver/sql"
+        Level  = "all"
+        Stdout = true
