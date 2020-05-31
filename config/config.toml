@@ -19,11 +19,12 @@
 
 # Database.
 [database]
-    link  = "mysql:root:123123@tcp(127.0.0.1:3306)/webdb"
-    debug = true
-    # Database users
-    [database.users]
-      link = "mysql:root:123123@tcp(127.0.0.1:3306)/users"
+    [database.primary]
+        link  = "mysql:root:123123@tcp(127.0.0.1:3306)/webserver"
+        debug = true
+    # # Database user
+    # [database.user]
+    #     link = "mysql:root:123123@tcp(127.0.0.1:3306)/user"
     # Database logger.
     [database.logger]
         Path   = "/tmp/log/webserver/sql"
