@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"webserver/app/model/user"
 
+	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
 	"github.com/gogf/gf/util/gvalid"
@@ -13,6 +14,8 @@ import (
 const (
 	USER_SESSION_MARK = "user_info"
 )
+
+/********************用户注册********************/
 
 // 注册账户输入参数
 type SignUpInput struct {
@@ -68,4 +71,23 @@ func CheckEmail(email string) bool {
 	} else {
 		return i == 0
 	}
+}
+
+/********************用户登录********************/
+
+// 用户登录
+func SignIn(username, password string, session *ghttp.Session) error {
+	one, err := user.FindOne("username=? and password=?", username, password)
+	if err != nil {
+		return err
+	}
+	if one == nil {
+		return errors.New("用户名密码错误")
+	}
+	return session.Set(username, one)
+}
+
+// 用户是否已经登录
+func IsSignedIn(username string, session *ghttp.Session) bool {
+	return session.Contains(username)
 }
