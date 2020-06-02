@@ -63,3 +63,17 @@ func (c *Controller) IsSignedIn(r *ghttp.Request) {
 		response.JsonExit(r, 0, "该用户未登录!")
 	}
 }
+
+/********************上传图片********************/
+type UploadPicRequest struct {
+	id      string
+	content uintptr
+}
+
+func (c *Controller) UploadPic(r *ghttp.Request) {
+	var data *UploadPicRequest
+	if err := r.Parse(&data); err != nil {
+		response.JsonExit(r, 1, err.Error())
+	}
+
+}

@@ -9,6 +9,7 @@ import (
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
 	"github.com/gogf/gf/util/gvalid"
+	"github.com/google/uuid"
 )
 
 const (
@@ -84,6 +85,13 @@ func SignIn(username, password string, session *ghttp.Session) error {
 	if one == nil {
 		return errors.New("用户名密码错误")
 	}
+
+	token, uuidErr := uuid.NewRandom()
+	if uuidErr != nil {
+		fmt.Printf("user %s generate token failed, error: %s", username, uuidErr)
+		return uuidErr
+	}
+	user.Replace("token", token)
 	return session.Set(username, one)
 }
 

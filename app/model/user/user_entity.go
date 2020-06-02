@@ -18,6 +18,7 @@ type Entity struct {
 	Password   string      `orm:"password"    json:"password"`   // 密码
 	Username   string      `orm:"username"    json:"username"`   // 昵称
 	CreateTime *gtime.Time `orm:"createtime"  json:"createtime"` // 创建时间/注册时间
+	Token      string      `orm:"token"  		json:"token"`         // token
 }
 
 // OmitEmpty sets OPTION_OMITEMPTY option for the model, which automatically filers
