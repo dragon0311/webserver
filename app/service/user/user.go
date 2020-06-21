@@ -47,8 +47,10 @@ func SignUp(data *SignUpInput) error {
 	if err := gconv.Struct(data, &entity); err != nil {
 		return err
 	}
+	// 记录账号创建、注册时间,生成用户id
+	id := uuid.New()
 
-	// 记录账号创建、注册时间
+	entity.ID = id.String()
 	entity.CreateTime = gtime.Now()
 	if _, err := user.Save(entity); err != nil {
 		return err

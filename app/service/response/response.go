@@ -29,3 +29,7 @@ func JsonExit(r *ghttp.Request, err int, msg string, data ...interface{}) {
 	Json(r, err, msg, data...)
 	r.Exit()
 }
+
+// func Marshal(data ...interface{}) {
+// 	json.Marshal()
+// }
