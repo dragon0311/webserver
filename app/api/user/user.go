@@ -39,16 +39,39 @@ type SignInRequest struct {
 	Password string `v:"required#密码不能为空"`
 }
 
+// 用户登录
 func (c *Controller) SignIn(r *ghttp.Request) {
 	var data *SignInRequest
 	if err := r.Parse(&data); err != nil {
 		response.JsonExit(r, 1, err.Error())
 	}
-	if err := user.SignIn(data.Username, data.Password, r.Session); err != nil {
+	if token, err := user.SignIn(data.Username, data.Password, r.Session); err != nil {
 		response.JsonExit(r, 1, err.Error())
 	} else {
-		response.JsonExit(r, 0, "ok")
+		response.JsonExit(r, 0, "0", token)
 	}
+}
+
+/********************用户登出********************/
+
+//登出请求参数
+type SignOutRequest struct {
+	token    string `v:"required#Token不能为空`
+	Username string `v:"required#用户名不能为空"`
+}
+
+// 用户登出
+func (c *Controller) SignOut(r *ghttp.Request) {
+	var data *SignOutRequest
+	if err := r.Parse(&data); err != nil {
+		response.JsonExit(r, 1, err.Error())
+	}
+	if err := user.SignOut(data.Username, r.Session); err != nil {
+		response.JsonExit(r, 1, err.Error())
+	} else {
+		response.JsonExit(r, 0, "0")
+	}
+
 }
 
 // 检查用户是否已经登录

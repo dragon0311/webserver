@@ -30,12 +30,14 @@ var (
 		Password   string // 密码
 		UserName   string // 昵称
 		CreateTime string // 创建时间/注册时间
+		Token      string // token
 	}{
 		ID:         "id",
 		Email:      "Email",
 		Password:   "password",
 		UserName:   "username",
 		CreateTime: "createtime",
+		Token:      "token",
 	}
 )
 

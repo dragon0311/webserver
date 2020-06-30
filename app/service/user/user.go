@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"webserver/app/model/user"
+	"webserver/app/util"
 
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/os/gtime"
@@ -79,22 +80,31 @@ func CheckEmail(email string) bool {
 /********************用户登录********************/
 
 // 用户登录
-func SignIn(username, password string, session *ghttp.Session) error {
+func SignIn(username, password string, session *ghttp.Session) (string, error) {
 	one, err := user.FindOne("username=? and password=?", username, password)
 	if err != nil {
-		return err
+		return "0", err
 	}
 	if one == nil {
-		return errors.New("用户名密码错误")
+		return "0", errors.New("用户名密码错误")
 	}
 
 	token, uuidErr := uuid.NewRandom()
 	if uuidErr != nil {
 		fmt.Printf("user %s generate token failed, error: %s", username, uuidErr)
-		return uuidErr
+		return "0", uuidErr
 	}
-	user.Replace("token", token)
-	return session.Set(username, one)
+	target := util.CombineString("token='", token.String(), "'")
+	where := util.CombineString("username='", username, "'")
+	if _, err = user.Update(target, where); err != nil {
+		return "0", err
+	}
+	return token.String(), session.Set(username, one)
+}
+
+//用户登出
+func SignOut(username string, session *ghttp.Session) error {
+	return session.Remove(username)
 }
 
 // 用户是否已经登录
